@@ -18,6 +18,8 @@
 
 var Ps1, Ps2;
 var proxy = 'https://plugins-services.onlyoffice.com/proxy';
+// var proxy = 'http://127.0.0.1:5000';
+
 
 (function(window, undefined) {
 	var displayNoneClass = "display-none";
@@ -167,7 +169,7 @@ var proxy = 'https://plugins-services.onlyoffice.com/proxy';
 					if (Request.status == 200)
 					{
 						var parser = new DOMParser();
-						var doc = parser.parseFromString(Request.responseText, "text/html");
+						var doc = parser.parseFromString(JSON.parse(Request.responseText), "text/html");
 						var docImgs = $('.artwork img', doc);
 						var imgsInfo = [];
 						var pagesInfo = $('.page-link', doc)[1].innerText.split(" / ");
@@ -250,7 +252,7 @@ var proxy = 'https://plugins-services.onlyoffice.com/proxy';
 
 			if (r_method.toLowerCase() == "post")
 			{
-				Request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=utf-8");
+				// Request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=utf-8");
 				// Request.send(r_args);
 				Request.send(JSON.stringify(settings));
 			}
