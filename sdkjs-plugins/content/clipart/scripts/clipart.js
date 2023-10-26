@@ -251,12 +251,12 @@ var proxy = 'https://plugins-services.onlyoffice.com/proxy';
 			if (r_method.toLowerCase() == "post")
 			{
 				Request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=utf-8");
-				Request.send(r_args);
+				// Request.send(r_args);
+				Request.send(JSON.stringify(settings));
 			}
 			else
 			{
-				// Request.send(null);
-				Request.send(JSON.stringify(settings));
+				Request.send(null);
 			}
 
 			return Request
