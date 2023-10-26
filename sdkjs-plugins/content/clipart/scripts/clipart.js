@@ -153,7 +153,7 @@ var proxy = 'https://onlyoffice-proxy.herokuapp.com/';
 
 		function SendRequest(r_method, r_path, r_args)
 		{
-			r_path = proxy + r_path;
+			r_path = r_path;
 			var Request = CreateRequest();
 
 			if (!Request)
