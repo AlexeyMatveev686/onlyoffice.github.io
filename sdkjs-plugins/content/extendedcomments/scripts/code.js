@@ -115,10 +115,13 @@
 
 	removeComments = function(arrId) {
 		arrId.forEach(function(element) {
-			let index = Comments.findIndex(function(comment) {
-				if (comment.Id == element)
-					return true;
-			});
+			let index = -1;
+			for (let i = 0; i < Comments.length; i++) {
+				if (Comments[i].Id == element) {
+					index = i;
+					break;
+				}
+			}
 			if (index !== -1) {
 				Comments.splice(index, 1);
 				$('#' + element).remove();
@@ -127,10 +130,13 @@
 	};
 
 	findComment = function(id) {
-		return Comments.find(function(element) {
-			if (element.Id == id)
-				return true;
-		  });
+		let comment;
+		for (let i = 0; i < Comments.length; i++) {
+			if (Comments[i].Id == id) {
+				comment = Comments[i];
+				break;
+			}
+		}
 	};
 
 	addReply = function(id, text, accept) {
@@ -144,10 +150,14 @@
 	removeReply = function(arr) {
 		arr.forEach(function(el) {
 			let comment = findComment(el.id);
-			let reply_id = comment.Data.Replies.findIndex(function(rep) {
-				if (el.text == rep.Text && el.author == rep.UserName)
-					return true;
-			});
+			let reply_id = -1;
+			for (let i = 0; i < comment.Data.Replies.length; i++) {
+				let rep = comment.Data.Replies[i];
+				if (el.text == rep.Text && el.author == rep.UserName) {
+					reply_id = i;
+					break;
+				}
+			}
 			comment.Data.Replies.splice(reply_id, 1);
 			window.Asc.plugin.executeMethod("ChangeComment",[comment.Id, comment.Data]);
 		})
