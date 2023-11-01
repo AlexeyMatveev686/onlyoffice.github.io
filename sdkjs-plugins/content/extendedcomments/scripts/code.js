@@ -137,6 +137,7 @@
 				break;
 			}
 		}
+		return comment;
 	};
 
 	addReply = function(id, text, accept) {
