@@ -467,6 +467,10 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
         document.getElementById("rename_ok").innerHTML = window.Asc.plugin.tr("Ok");
         document.getElementById("rename_cancel").innerHTML = window.Asc.plugin.tr("Cancel");
         document.getElementById("input_error_id").title = window.Asc.plugin.tr("Title");
+        document.getElementById("menu_run_id").innerHTML = window.Asc.plugin.tr("Run")
+        document.getElementById("menu_rename_id").innerHTML = window.Asc.plugin.tr("Rename");
+        document.getElementById("menu_delete_id").innerHTML = window.Asc.plugin.tr("Delete");
+        document.getElementById("menu_copy_id").innerHTML = window.Asc.plugin.tr("Copy");
     };
     
     // context menu
@@ -521,6 +525,40 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
                 Content.macrosArray[window.CustomContextMenu.macrosIndex].autostart ? false : true;
 
             updateMenu();
+        },
+		onRunClick: function()
+        {
+            if (!Content.macrosArray[window.CustomContextMenu.macrosIndex])
+                return;
+            
+			window.Asc.plugin.info.recalculate = true;
+			window.Asc.plugin.executeCommand("command", Content.macrosArray[window.CustomContextMenu.macrosIndex].value);
+        },
+		onRenameClick: function()
+        {
+            if (!Content.macrosArray[window.CustomContextMenu.macrosIndex])
+                return;
+            
+			onItemClick(window.CustomContextMenu.macrosIndex);
+			showRename();
+        },
+		onDeleteClick: function()
+        {
+            if (!Content.macrosArray[window.CustomContextMenu.macrosIndex])
+                return;
+            
+			Content.macrosArray.splice(window.CustomContextMenu.macrosIndex, 1);
+            updateMenu();
+        },
+		onCopyClick: function()
+        {
+            if (!Content.macrosArray[window.CustomContextMenu.macrosIndex])
+                return;
+            
+			Content.macrosArray.push({ name : (Content.macrosArray[window.CustomContextMenu.macrosIndex].name + "_copy"), value : Content.macrosArray[window.CustomContextMenu.macrosIndex].value });
+			Content.current = Content.macrosArray.length - 1;
+			updateMenu();
+			editor.focus();
         }
     };
 
@@ -537,10 +575,12 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
         $('#menu').css('background-color', window.Asc.plugin.theme["background-normal"]);
         $('#idRename').css('background-color', window.Asc.plugin.theme["background-toolbar"]);
         $('#idRename').css('border-color', window.Asc.plugin.theme["border-toolbar-button-hover"]);
+		$('.context-menu-options').css('background', window.Asc.plugin.theme["background-normal"]);
 
         var rules = '.macros { color: ' + window.Asc.plugin.theme["text-normal"] + '; background-color: ' + window.Asc.plugin.theme['background-toolbar'] + '}\n';
         rules += '.macros:hover { background-color: ' + window.Asc.plugin.theme['highlight-button-hover'] + '}\n';
         rules += '.macrosSelected { background-color: ' + window.Asc.plugin.theme['highlight-button-pressed'] + '}\n';
+		rules += '.context-menu-option:hover { background-color: ' + window.Asc.plugin.theme['highlight-button-hover'] + '}\n';
         if (theme.type === 'dark')
             rules += '.ace-chrome .ace_marker-layer .ace_selected-word { background: rgb(250, 250, 255, 0.3) !important; border: 1px solid rgb(200, 200, 250); }'
         else
