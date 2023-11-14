@@ -16,3 +16,8 @@
 ## 1.0.3
 
 * Add combination Ctrl/Cmd + S to save macros.
+
+## 1.0.4
+
+* Add ability to changge order in macros list by drag&drop.
+* Add new items into context menu for macros list.

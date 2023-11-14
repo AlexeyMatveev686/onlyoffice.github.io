@@ -86,6 +86,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
         
         current : -1
     };
+	let zoom = 1;
 
     editor.getSession().on('change', function() {
         
@@ -113,7 +114,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
         for (var i = 0; i < Content.macrosArray.length; i++)
         {
             var cl = (i == Content.current) ? "macrosSelected" : "macros";
-            var item = "<div class=\"" + cl + "\" id=\"item" + i + "\" onclick=\"window.onItemClick(" + i + ");\">" + Content.macrosArray[i].name;
+            var item = "<div class=\"draggable " + cl + "\" id=\"item" + i + "\" onclick=\"window.onItemClick(" + i + ");\" draggable=\"true\">" + Content.macrosArray[i].name;
             if (true === Content.macrosArray[i].autostart) {
                 var PropForMac = "";
                 if (navigator.userAgent.indexOf('Macintosh') != -1) {
@@ -135,7 +136,69 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
         updateScrollMenu();
     }
 
-    function onItemClick(index, isAttack)
+	let indActive = 0;
+	let activeElement;
+	let currentElement;
+	let nextElement;
+	function makeDragable() {
+		const macrosList = document.getElementById("menu_content");
+
+		macrosList.addEventListener('dragstart', function(evt) {
+			activeElement = evt.target;
+			evt.target.classList.add('dragged');
+			indActive = Content.macrosArray.findIndex(function(el) {
+				return (el.name == evt.target.innerText)
+			})
+			evt.target.onclick();
+		});
+
+		macrosList.addEventListener('dragend', function(evt) {
+			evt.target.classList.remove('dragged');
+			$('.dragHovered').removeClass("dragHovered");
+
+			if (currentElement === activeElement)
+				return;
+
+			macrosList.insertBefore(activeElement, nextElement);
+			let indNext = Content.macrosArray.findIndex(function(el) {
+				return (nextElement && el.name == nextElement.innerText)
+			})
+			if (indNext === -1)
+				indNext = Content.macrosArray.length;
+
+			if (indActive < indNext)
+				indNext--;
+
+			let tmp = Content.macrosArray.splice(indActive, 1)[0];
+			Content.macrosArray.splice(indNext, 0, tmp);
+			Content.current = indNext;
+			indActive = 0;
+			updateMenu();
+		});
+
+		function getNextElement(cursorPosition, currentElement) {
+			cursorPosition = cursorPosition * ((1 + (1 -zoom)).toFixed(1))
+			const currentElementCoord = currentElement.getBoundingClientRect();
+			const currentElementCenter = currentElementCoord.y + currentElementCoord.height * 0.45;
+			const nextElement = (cursorPosition < currentElementCenter) ? currentElement : currentElement.nextElementSibling;
+			return nextElement;
+		};
+
+		macrosList.addEventListener('dragover', function(evt) {
+			evt.preventDefault();
+			currentElement = evt.target;
+			const isMoveable = currentElement.classList.contains('draggable');
+			if (!isMoveable)
+				return;
+
+			nextElement = getNextElement(evt.clientY, currentElement);
+			$('.dragHovered').removeClass("dragHovered")
+			if (nextElement)
+				nextElement.classList.add('dragHovered');
+		});
+	};
+
+    function onItemClick(index, isAttack, event)
     {
         if (index != Content.current || isAttack)
         {
@@ -351,6 +414,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 
     window.Asc.plugin.init = function(text)
 	{
+		zoom = document.getElementsByTagName('html')[0].style.zoom || 1;
         on_init_server(2);
         this.executeMethod("GetMacros", [JSON.stringify(Content)], function(data) {
             
@@ -412,6 +476,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
                 }
                 updateMenu();
                 window.CustomContextMenu.init();
+				makeDragable();
                 if (Content.current === -1)
                 {
                     document.getElementById("button_new").onclick();
@@ -580,6 +645,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
         var rules = '.macros { color: ' + window.Asc.plugin.theme["text-normal"] + '; background-color: ' + window.Asc.plugin.theme['background-toolbar'] + '}\n';
         rules += '.macros:hover { background-color: ' + window.Asc.plugin.theme['highlight-button-hover'] + '}\n';
         rules += '.macrosSelected { background-color: ' + window.Asc.plugin.theme['highlight-button-pressed'] + '}\n';
+        rules += '.dragHovered { background-color: ' + window.Asc.plugin.theme['highlight-button-pressed'] + '}\n';
 		rules += '.context-menu-option:hover { background-color: ' + window.Asc.plugin.theme['highlight-button-hover'] + '}\n';
         if (theme.type === 'dark')
             rules += '.ace-chrome .ace_marker-layer .ace_selected-word { background: rgb(250, 250, 255, 0.3) !important; border: 1px solid rgb(200, 200, 250); }'
