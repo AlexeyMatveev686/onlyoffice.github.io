@@ -13853,9 +13853,11 @@ var Gutter = function(parentEl) {
     this.getRegion = function(point) {
         var padding = this.$padding || this.$computePadding();
         var rect = this.element.getBoundingClientRect();
-        if (point.x < padding.left + rect.left)
+		var zoom = document.getElementsByTagName('html')[0].style.zoom || 1;
+		var x = point.x * (1 + (1 - zoom));
+        if (x < padding.left + rect.left)
             return "markers";
-        if (this.$showFoldWidgets && point.x > rect.right - padding.right)
+        if (this.$showFoldWidgets && x > rect.right - padding.right)
             return "foldWidgets";
     };
 
@@ -16496,6 +16498,9 @@ var VirtualRenderer = function(container, theme) {
     };
 
     this.screenToTextCoordinates = function(x, y) {
+		var zoom = document.getElementsByTagName('html')[0].style.zoom || 1;
+		x *= (1 + (1 - zoom));
+		y *= (1 + (1 - zoom));
         var canvasPos = this.scroller.getBoundingClientRect();
 
         var col = Math.round(

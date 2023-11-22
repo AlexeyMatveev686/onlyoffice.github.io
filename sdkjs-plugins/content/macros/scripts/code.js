@@ -26,23 +26,23 @@ function load_library(name, url)
     xhr.send();
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+function setStyles() {
     var styleTheme = document.createElement('style');
     styleTheme.type = 'text/css';
 
     window.lockTooltipsPosition = true;
     var editor_elem = document.getElementById("editorWrapper");
     var rules = ".Ace-Tern-tooltip {\
-box-sizing: border-box;\
-max-width: " + editor_elem.offsetWidth + "px !important;\
-min-width: " + editor_elem.offsetWidth + "px !important;\
-left: " + editor_elem.offsetLeft + "px !important;\
-bottom: " + parseInt(document.getElementsByClassName("divFooter")[0].offsetHeight) + "px !important;\
-}";
+				box-sizing: border-box;\
+				max-width: " + editor_elem.offsetWidth + "px !important;\
+				min-width: " + editor_elem.offsetWidth + "px !important;\
+				left: " + editor_elem.offsetLeft + "px !important;\
+				bottom: " + parseInt(document.getElementsByClassName("divFooter")[0].offsetHeight) + "px !important;\
+				}";
 
     styleTheme.innerHTML = rules;
     document.getElementsByTagName('head')[0].appendChild(styleTheme);
-});
+};
 
 var editor = ace.edit("editor");      
 editor.session.setMode("ace/mode/javascript");
@@ -177,7 +177,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 		});
 
 		function getNextElement(cursorPosition, currentElement) {
-			cursorPosition = cursorPosition * ((1 + (1 -zoom)).toFixed(1))
+			cursorPosition = cursorPosition * ((1 + (1 - zoom)).toFixed(1));
 			const currentElementCoord = currentElement.getBoundingClientRect();
 			const currentElementCenter = currentElementCoord.y + currentElementCoord.height * 0.45;
 			const nextElement = (cursorPosition < currentElementCenter) ? currentElement : currentElement.nextElementSibling;
@@ -415,6 +415,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
     window.Asc.plugin.init = function(text)
 	{
 		zoom = document.getElementsByTagName('html')[0].style.zoom || 1;
+		setStyles();
         on_init_server(2);
         this.executeMethod("GetMacros", [JSON.stringify(Content)], function(data) {
             

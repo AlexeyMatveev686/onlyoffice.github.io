@@ -21,3 +21,4 @@
 
 * Add ability to changge order in macros list by drag&drop.
 * Add new items into context menu for macros list.
+* Fix problem with plugin when browser zoom is set.
