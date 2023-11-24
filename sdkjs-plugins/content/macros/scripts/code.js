@@ -26,6 +26,28 @@ function load_library(name, url)
     xhr.send();
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+	window.Asc.plugin.enableDrops = true;
+	let el = document.getElementById('editorWrapper');
+	el.ondrop = function(e) {
+		if (e && e.preventDefault)
+			e.preventDefault();
+		return false;
+	};
+	el.ondragenter = function(e) {
+		if (e && e.preventDefault)
+			e.preventDefault();
+		return false;
+	};
+	el.ondragover = function(e) {
+		if (e && e.preventDefault)
+			e.preventDefault();
+		if (e && e.dataTransfer)
+			e.dataTransfer.dropEffect = "none";
+		return false;
+	};
+});
+
 function setStyles() {
     var styleTheme = document.createElement('style');
     styleTheme.type = 'text/css';
@@ -144,6 +166,8 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 		const macrosList = document.getElementById("menu_content");
 
 		macrosList.addEventListener('dragstart', function(evt) {
+			evt.dataTransfer.setData("text", evt.target.id);
+			evt.dataTransfer.effectAllowed = "move";
 			activeElement = evt.target;
 			evt.target.classList.add('dragged');
 			indActive = Content.macrosArray.findIndex(function(el) {
@@ -186,6 +210,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 
 		macrosList.addEventListener('dragover', function(evt) {
 			evt.preventDefault();
+			evt.dataTransfer.dropEffect = "move";
 			currentElement = evt.target;
 			const isMoveable = currentElement.classList.contains('draggable');
 			if (!isMoveable)
