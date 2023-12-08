@@ -138,6 +138,10 @@
 		}
 		
 		var sMathML = oEditor.getMathML();
+		// don't paste empy data
+		if (sMathML === '<math xmlns="http://www.w3.org/1998/Math/MathML"/>')
+			return;
+
 		var oImg = createHTMLElementFromString(WirisPlugin.Parser.initParse(sMathML)); 
 
 		oImg.onload = function() {
