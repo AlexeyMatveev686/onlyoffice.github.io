@@ -138,11 +138,13 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 			var cl = (i == Content.current) ? "macrosSelected" : "macros";
 			var item = "<div class=\"draggable " + cl + "\" id=\"item" + i + "\" onclick=\"window.onItemClick(" + i + ");\" draggable=\"true\">" + Content.macrosArray[i].name;
 			if (true === Content.macrosArray[i].autostart) {
-				var PropForMac = "";
+				let prop = "";
 				if (navigator.userAgent.indexOf('Macintosh') != -1) {
-					PropForMac = "style = \"top : calc(50% - 6px)\"";
+					prop = "style = \"top : calc(50% - 6px) !important\"";
+				} else if (navigator.userAgent.indexOf('Linux') != -1) {
+					prop = "style = \"top : calc(50% - 4px) !important\"";
 				}
-				item += ("<div class=\"macrosAutostart\"" +PropForMac+ ">(A)</div>");
+				item += ("<div class=\"macrosAutostart\"" + prop + ">(A)</div>");
 			}
 			item += "</div>";
 			menuContent += item;
