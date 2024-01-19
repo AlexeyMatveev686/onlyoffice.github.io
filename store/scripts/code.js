@@ -16,7 +16,7 @@
  *
  */
 
-const version = '1.0.5';                                             // version of store (will change it when update something in store)
+const version = '1.0.6';                                             // version of store (will change it when update something in store)
 let start = Date.now();
 const isLocal = ( (window.AscDesktopEditor !== undefined) && (window.location.protocol.indexOf('file') !== -1) ); // desktop detecting
 let isPluginLoading = false;                                         // flag plugins loading
@@ -130,8 +130,9 @@ window.onload = function() {
 	}
 	// init element
 	initElemnts();
-
 	isFrameLoading = false;
+	onTranslate();
+
 	if (shortLang == "en" || (!isPluginLoading && !isTranslationLoading)) {
 		// if nothing to translate
 		showMarketplace();
@@ -576,8 +577,9 @@ function getAllPluginsData(bFirstRender, bshowMarketplace) {
 				);
 				makeRequest(pluginUrl + 'CHANGELOG.md', 'GET', null, null, false).then(
 					function(response) {
-						let settings = getMarkedSetting()
-						let lexed = marked.lexer(response.replace('# Change Log\n\n', ''), settings);
+						let settings = getMarkedSetting();
+						let value = parseChangelog(response);
+						let lexed = marked.lexer(value, settings);
 						config.changelog = marked.parser(lexed, settings);
 					}
 				);
@@ -1333,6 +1335,7 @@ function getTranslation() {
 						function(res) {
 							// console.log('getTranslation: ' + (Date.now() - start));
 							translate = JSON.parse(res);
+							isTranslationLoading = false;
 							onTranslate();
 						},
 						function(err) {
@@ -1359,8 +1362,10 @@ function getTranslation() {
 };
 
 function onTranslate() {
-	isTranslationLoading = false;
 	// translates elements on current language
+	if (isFrameLoading || isTranslationLoading)
+		return;
+
 	elements.linkNewPlugin.innerHTML = getTranslated(messages.linkPR);
 	elements.btnAvailablePl.innerHTML = getTranslated('Available plugins');
 	elements.btnMarketplace.innerHTML = getTranslated('Marketplace');
@@ -1802,7 +1807,7 @@ function parseRatingPage(data) {
 	if (data !== 'Not Found') {
 		let start = data.indexOf('<head>');
 		let end = data.indexOf('</head>') + 7;
-		document.getElementById('div_rating_git').innerHTML = data.substring(0, start) + data.substring(end);
+		document.getElementById('div_rating_git').innerHTML = ( data.substring(0, start) + data.substring(end) ).replace(/popover="/g,'data-popover="');;
 		// we will have a problem if github change their page
 		let first = Number(document.getElementById('result-row-1').childNodes[1].childNodes[3].innerText.replace(/[\n\s%]/g,''));
 		let second = Number(document.getElementById('result-row-2').childNodes[1].childNodes[3].innerText.replace(/[\n\s%]/g,''));
@@ -1825,6 +1830,22 @@ function parseRatingPage(data) {
 	} else {
 		return null;
 	}
+};
+
+function parseChangelog(data) {
+	let arr = data.replace('# Change Log', '').split('\n\n## ');
+	if (arr[0] == '')
+		arr.shift();
+
+	let indLast = arr.length - 1;
+	let end = arr[0].indexOf('\n\n');
+	let firstVersion = getPluginVersion( arr[0].slice(0, end) );
+	end = arr[indLast].indexOf('\n\n');
+	let lastVersion = getPluginVersion( arr[indLast].slice(0, end) );
+	if (lastVersion > firstVersion)
+		arr = arr.reverse();
+
+	return ( '## ' + arr.join('\n\n## ') );
 };
 
 function checkNoUpdated(bRemove) {

@@ -34,3 +34,9 @@
 * Fix problem with github link into desktop for installed plugins.
 * Fix problem with empty space into a plugin window when we don't have information about version and languages.
 * Change "Help Center" link to "README" plugin link.
+
+## 1.0.6
+
+* Fix problem with translations.
+* Fix errors in console into the desktop.
+* Add parsing changlog files. Now the last version should be on the top (it works only with ONLYOFFICE CHANGELOG files format).
