@@ -478,8 +478,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 							macros = macros.replace(/&gt;/g,'>');
 							macros = macros.replace(/&apos;/g,'\'');
 							macros = macros.replace(/&quot;/g,'"');
-							macros = macros.replace(/Attribute [\w \.="\\{}-]*/g,'');
-							macros = macros.trim();
+							macros = macros.replace(/Attribute [^\r\n]*\r\n/g, "");
 							Content.macrosArray.push(
 								{
 									name: name,
