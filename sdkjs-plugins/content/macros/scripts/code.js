@@ -269,6 +269,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 		}
 			
 		editor.selection.clearSelection();
+		editor.scrollToRow(0);
 	}
 	window.onItemClick = onItemClick;
 
@@ -461,7 +462,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 
 			window.Asc.plugin.executeMethod("GetVBAMacros", null, function(data) {
 				if (data && typeof data === 'string' && data.includes('<Module')) {
-					var arr = data.split('<Module ').filter(function(el){return el.includes('Type="Procedural"')});
+					var arr = data.split('<Module ').filter(function(el){return el.includes('Type="Procedural"') || el.includes('Type="Class"')});
 					arr.forEach(function(el) {
 						var start = el.indexOf('<SourceCode>') + 12;
 						var end = el.indexOf('</SourceCode>', start);
@@ -477,7 +478,8 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 							macros = macros.replace(/&gt;/g,'>');
 							macros = macros.replace(/&apos;/g,'\'');
 							macros = macros.replace(/&quot;/g,'"');
-							macros = macros.replace(/Attribute [\w \.="\\]*/g,'');
+							macros = macros.replace(/Attribute [\w \.="\\{}-]*/g,'');
+							macros = macros.trim();
 							Content.macrosArray.push(
 								{
 									name: name,

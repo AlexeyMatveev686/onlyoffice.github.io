@@ -22,3 +22,7 @@
 * Add ability to changge order in macros list by drag&drop.
 * Add new items into context menu for macros list.
 * Fix problem with plugin when browser zoom is set.
+* Fix problem when js code can be runned throw macros names.
+* Fix problem with some VBA macros.
+* Fix problem with too long macros names.
+* Add scroll to up of the macros, when we select a new macros.
