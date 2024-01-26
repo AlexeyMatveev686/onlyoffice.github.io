@@ -103,9 +103,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 (function(window, undefined){
 
 	var Content = {
-
 		macrosArray : [],
-		
 		current : -1
 	};
 	let zoom = 1;
@@ -121,8 +119,8 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 
 	function create_guid(a,b)
 	{
-	   for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'');
-	   return b
+		for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'');
+		return b
 	};
 
 	function updateMenu()
@@ -136,7 +134,8 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 		for (var i = 0; i < Content.macrosArray.length; i++)
 		{
 			var cl = (i == Content.current) ? "macrosSelected" : "macros";
-			var item = "<div class=\"draggable " + cl + "\" id=\"item" + i + "\" onclick=\"window.onItemClick(" + i + ");\" draggable=\"true\">" + Content.macrosArray[i].name;
+			var name = $('<div/>').text(Content.macrosArray[i].name).html();
+			var item = "<div class=\"" + cl + "\" id=\"item" + i + "\" onclick=\"window.onItemClick(" + i + ");\">" + name;
 			if (true === Content.macrosArray[i].autostart) {
 				let prop = "";
 				if (navigator.userAgent.indexOf('Macintosh') != -1) {
@@ -245,7 +244,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 			}
 			Content.current = index;
 		}
-		
+
 		var buttonAutoStart = document.getElementById("button_autostart");
 		if (-1 == Content.current)
 		{
@@ -373,7 +372,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 		document.getElementById("rename_text").select();
 
 		isShowRename = true;
-	}
+	};
 
 	function unShowRename(isOK)
 	{
@@ -395,13 +394,6 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 
 		if (isOK && value)
 		{
-
-			value = value.replace(/&/g,'&amp;');
-			value = value.replace(/</g,'&lt;');
-			value = value.replace(/>/g,'&gt;');
-			value = value.replace(/'/g,'&apos;');
-			value = value.replace(/"/g,'&quot;');
-
 			Content.macrosArray[Content.current].name = value;
 			updateMenu();
 		} else if (isOK && !value) {
@@ -410,12 +402,12 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 		}
 
 		value.value = "";
-	}
+	};
 
 	window.onresize = function()
 	{
 		updateScrollMenu();
-	}
+	};
 
 	window.onkeydown = function(e)
 	{
@@ -437,7 +429,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 					break;
 			}
 		}
-	}
+	};
 
 	window.Asc.plugin.init = function(text)
 	{
@@ -455,12 +447,6 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 					var value = Content.macrosArray[i].name;
 					if (undefined === value)
 						value = "";
-
-					value = value.replace(/&/g,'&amp;');
-					value = value.replace(/</g,'&lt;');
-					value = value.replace(/>/g,'&gt;');
-					value = value.replace(/'/g,'&apos;');
-					value = value.replace(/"/g,'&quot;');
 
 					Content.macrosArray[i].name = value;
 				}
@@ -684,7 +670,6 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 		styleTheme.type = 'text/css';
 		styleTheme.innerHTML = rules;
 		document.getElementsByTagName('head')[0].appendChild(styleTheme);
-
 
 		if (theme.type === 'dark')
 			editor.setTheme("ace/theme/vs-dark")

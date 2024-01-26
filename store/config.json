@@ -29,6 +29,10 @@
 	{ "name": "speechrecognition", "discussion": "249" },
 	{ "name": "zhipu", "discussion": "273"},
 	{ "name": "glavred", "discussion": "274" },
+<<<<<<< HEAD
 	{ "name": "termef", "discussion": "" },
 	{ "name": "extendedcomments", "discussion": "" }	
+=======
+	{ "name": "termef", "discussion": "295" }
+>>>>>>> fix/macros
 ]
