@@ -115,12 +115,12 @@
 			}
 		},
 		{
-			"description": "ChemType",
+			"description": "Start ChemType",
 			"descriptionLocale": {
-				"ru": "ChemType",
-				"fr": "ChemType",
-				"es": "ChemType",
-				"de": "ChemType"
+				"ru": "Запустить ChemType",
+				"fr": "Démarrer ChemType",
+				"es": "Démarrer ChemType",
+				"de": "Beginnen ChemType"
 			},
 			"url": "index.html?type=chemistry",
 			"isViewer": false,
