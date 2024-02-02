@@ -1,7 +1,9 @@
 {
-    "Error has occured when loading data.": "Beim Laden von Daten ist ein Fehler aufgetreten.",
-    "Submit": "Übermitteln",
-    "ClipArt Add-on": "ClipArt Add-on",
-    "The add-on is designed to insert the themed image from <a href=\"https://openclipart.org\" target=\"_blank\">Open Clip Art Library</a> into the document editor.": "Mit dem Add-On können Sie das Themenbild aus <a href=\"https://openclipart.org\" target=\"_blank\">Clip Art Library öffnen</a> in den Dokumenteditor einfügen.",
-    "Source code": "Quellcode"
+	"Error has occured when loading data.": "Beim Laden von Daten ist ein Fehler aufgetreten.",
+	"Search" : "Suche",
+	"Enter search phrase" : "Suchbegriff eingeben",
+	"This plugin use:" : "Dieses Plugin verwendet:",
+	"is an online media repository of free-content vector clip art." : "ist ein Online-Medien-Repository mit Vektor-Cliparts mit freiem Inhalt.",
+	"Loading..." : "Laden...",
+	"No results." :  "Keine Ergebnisse."
 }
