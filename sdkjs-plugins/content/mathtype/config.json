@@ -127,7 +127,7 @@
 			"EditorsSupport": [ "word", "slide", "cell" ],
 
 			"isVisual": true,
-			"isModal": false,
+			"type": "window",
 			"isInsideMode": false,
 
 			"initDataType": "ole",
