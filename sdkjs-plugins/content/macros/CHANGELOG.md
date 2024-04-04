@@ -26,3 +26,4 @@
 * Fix problem with some VBA macros.
 * Fix problem with too long macros names.
 * Add scroll to up of the macros, when we select a new macros.
+* Update the documentation with hints.
