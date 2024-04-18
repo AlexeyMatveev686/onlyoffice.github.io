@@ -27,3 +27,5 @@
 * Fix problem with too long macros names.
 * Add scroll to up of the macros, when we select a new macros.
 * Update the documentation with hints.
+* Chnage line height to 20px for editor and change active line highlight
+* Update ace library version to 1.33.0

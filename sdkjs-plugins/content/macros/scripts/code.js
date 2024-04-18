@@ -68,6 +68,7 @@ function setStyles() {
 
 var editor = ace.edit("editor");
 editor.session.setMode("ace/mode/javascript");
+editor.container.style.lineHeight = "20px";
 editor.setValue("");
 
 
