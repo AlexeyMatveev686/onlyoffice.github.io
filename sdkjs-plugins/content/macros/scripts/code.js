@@ -136,7 +136,7 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
 		{
 			var cl = (i == Content.current) ? "macrosSelected" : "macros";
 			var name = $('<div/>').text(Content.macrosArray[i].name).html();
-			var item = "<div class=\"" + cl + "\" id=\"item" + i + "\" onclick=\"window.onItemClick(" + i + ");\">" + name;
+			var item = "<div class=\"draggable " + cl + "\" id=\"item" + i + "\" onclick=\"window.onItemClick(" + i + ");\" draggable=\"true\">" + name;
 			if (true === Content.macrosArray[i].autostart) {
 				let prop = "";
 				if (navigator.userAgent.indexOf('Macintosh') != -1) {
