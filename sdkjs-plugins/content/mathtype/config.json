@@ -33,10 +33,7 @@
 			"isViewer": false,
 			"EditorsSupport": [ "word", "slide", "cell" ],
 
-			"isVisual": true,
-			"isModal": false,
-			"isInsideMode": false,
-
+			"type": "window",
 			"initDataType": "ole",
 			"initData": "",
 
@@ -126,10 +123,7 @@
 			"isViewer": false,
 			"EditorsSupport": [ "word", "slide", "cell" ],
 
-			"isVisual": true,
 			"type": "window",
-			"isInsideMode": false,
-
 			"initDataType": "ole",
 			"initData": "",
 
