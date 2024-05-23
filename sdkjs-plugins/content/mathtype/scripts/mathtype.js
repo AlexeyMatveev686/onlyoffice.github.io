@@ -185,8 +185,9 @@
 	};
 
 	function closeWithTelemetry(trigger) {
-		genericIntegrationInstance.telemeter.wrsClosedEditorModal(wsTelemetry.toolbar, trigger);
-		window.Asc.plugin.executeCommand("close", "");
+		genericIntegrationInstance.telemeter.wrsClosedEditorModal(wsTelemetry.toolbar, trigger).then(function(){
+			window.Asc.plugin.executeCommand("close", "");
+		});
 	};
 
 	window.Asc.plugin.button = function(id) {
